@@ -1,0 +1,165 @@
+{
+  "name": "sentinelguard-ide-guard",
+  "displayName": "SentinelGuard IDE Guard",
+  "description": "AI data firewall guardrails directly inside VS Code.",
+  "version": "0.2.0",
+  "publisher": "sentinelguard-prototype",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:sentinelguard.scanSelection",
+    "onCommand:sentinelguard.scanDocument",
+    "onCommand:sentinelguard.openReport",
+    "onCommand:sentinelguard.copySanitized",
+    "onCommand:sentinelguard.sendThroughGateway",
+    "onCommand:sentinelguard.copyPrompt",
+    "onCommand:sentinelguard.insertPrompt",
+    "onCommand:sentinelguard.replaceWithSanitized",
+    "onCommand:sentinelguard.openDashboardIncident",
+    "onCommand:sentinelguard.checkHealth",
+    "onCommand:sentinelguard.clearDiagnostics"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "sentinelguard.scanSelection",
+        "title": "SentinelGuard: Scan Selection"
+      },
+      {
+        "command": "sentinelguard.scanDocument",
+        "title": "SentinelGuard: Scan Current File"
+      },
+      {
+        "command": "sentinelguard.openReport",
+        "title": "SentinelGuard: Open Last Report"
+      },
+      {
+        "command": "sentinelguard.copySanitized",
+        "title": "SentinelGuard: Copy Sanitized Output"
+      },
+      {
+        "command": "sentinelguard.sendThroughGateway",
+        "title": "SentinelGuard: Send Last Scan Through AI Gateway"
+      },
+      {
+        "command": "sentinelguard.copyPrompt",
+        "title": "SentinelGuard: Copy Last Safe Prompt"
+      },
+      {
+        "command": "sentinelguard.insertPrompt",
+        "title": "SentinelGuard: Insert Last Safe Prompt"
+      },
+      {
+        "command": "sentinelguard.replaceWithSanitized",
+        "title": "SentinelGuard: Replace Selection with Sanitized Output"
+      },
+      {
+        "command": "sentinelguard.openDashboardIncident",
+        "title": "SentinelGuard: Open Incident in Dashboard"
+      },
+      {
+        "command": "sentinelguard.checkHealth",
+        "title": "SentinelGuard: Check Backend Health"
+      },
+      {
+        "command": "sentinelguard.clearDiagnostics",
+        "title": "SentinelGuard: Clear Diagnostics"
+      }
+    ],
+    "configuration": {
+      "title": "SentinelGuard",
+      "properties": {
+        "sentinelguard.apiBaseUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "Base URL for the SentinelGuard backend API."
+        },
+        "sentinelguard.frontendBaseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:5173",
+          "description": "Base URL for the SentinelGuard dashboard."
+        },
+        "sentinelguard.userId": {
+          "type": "string",
+          "default": "vs-code-user",
+          "description": "User identifier sent with IDE Guard scan requests."
+        },
+        "sentinelguard.timeoutMs": {
+          "type": "number",
+          "default": 15000,
+          "minimum": 1000,
+          "description": "Backend request timeout in milliseconds."
+        },
+        "sentinelguard.autoOpenReport": {
+          "type": "string",
+          "default": "onRisk",
+          "enum": [
+            "never",
+            "onRisk",
+            "always"
+          ],
+          "description": "When to automatically open the rich SentinelGuard scan report."
+        },
+        "sentinelguard.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show SentinelGuard status in the VS Code status bar."
+        },
+        "sentinelguard.diagnosticsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Add VS Code diagnostics on scanned risky selections or files."
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "sentinelguard.sendThroughGateway"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "sentinelguard.scanSelection",
+          "when": "editorHasSelection",
+          "group": "navigation@50"
+        },
+        {
+          "command": "sentinelguard.scanDocument",
+          "group": "navigation@51"
+        },
+        {
+          "command": "sentinelguard.replaceWithSanitized",
+          "when": "editorHasSelection",
+          "group": "navigation@52"
+        },
+        {
+          "command": "sentinelguard.sendThroughGateway",
+          "group": "navigation@53"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "sentinelguard.scanDocument",
+          "group": "navigation@90"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.41",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.5.4"
+  }
+}
