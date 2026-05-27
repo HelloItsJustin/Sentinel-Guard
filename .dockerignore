@@ -1,0 +1,44 @@
+# Git metadata
+.git/
+.github/
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node dependencies and generated output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+**/.vite/
+*.tsbuildinfo
+
+# VS Code extension build artifacts
+out/
+**/out/
+*.vsix
+
+# Local databases and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
