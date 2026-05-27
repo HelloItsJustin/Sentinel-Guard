@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      SENTINELGUARD_CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      SENTINELGUARD_DB_PATH: /data/sentinelguard.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - sentinelguard-data:/data
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/sentinelguard-ui/Dockerfile
+    depends_on:
+      - backend
+    environment:
+      VITE_SENTINELGUARD_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+
+volumes:
+  sentinelguard-data:
