@@ -9,15 +9,19 @@ import { CopyButton } from "../components/CopyButton";
 import { Icon, type IconName } from "../components/Icon";
 
 const PROTECTED_STORAGE_MARKER = "[PROTECTED ORIGINAL STORED AS SANITIZED PREVIEW]";
+const HAS_TIMEZONE_RE = /(?:Z|[+-]\d{2}:?\d{2})$/;
 
 function formatTs(ts: string): string {
-  const date = new Date(ts);
+  const normalizedTs = HAS_TIMEZONE_RE.test(ts) ? ts : `${ts}Z`;
+  const date = new Date(normalizedTs);
   if (Number.isNaN(date.getTime())) return ts;
   return new Intl.DateTimeFormat(undefined, {
     month: "short",
     day: "2-digit",
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short"
   }).format(date);
 }
 

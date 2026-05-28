@@ -30,7 +30,8 @@ function createSession(now = Date.now()): ChatSession {
 function formatChatTime(ts: number): string {
   return new Intl.DateTimeFormat(undefined, {
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
+    second: "2-digit"
   }).format(ts);
 }
 

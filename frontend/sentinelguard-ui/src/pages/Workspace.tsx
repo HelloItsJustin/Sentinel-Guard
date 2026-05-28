@@ -104,7 +104,8 @@ function riskLabel(risk: RiskLevel): string {
 function formatTime(ts: number): string {
   return new Intl.DateTimeFormat(undefined, {
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
+    second: "2-digit"
   }).format(ts);
 }
 

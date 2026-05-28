@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -76,7 +76,7 @@ def log_incident(
     decision: str,
     policy_snapshot: dict[str, object] | None = None,
 ) -> Incident:
-    timestamp = datetime.utcnow()
+    timestamp = datetime.now(timezone.utc)
     prev_hash = _get_previous_hash(db)
     policy_snapshot_json = json.dumps(policy_snapshot, sort_keys=True, ensure_ascii=False) if policy_snapshot else None
     payload = _incident_payload_for_hash(
