@@ -225,25 +225,26 @@ _INDIA_GSTIN_RE = re.compile(r"(?i)\b(?:gstin|gst\s+number)\b.{0,35}\b\d{2}[A-Z]
 _UPI_ID_RE = re.compile(r"(?i)\b(?:upi\s*id|upi|vpa)\b\s*[:#-]?\s*[a-z0-9._-]{2,256}@[a-z][a-z0-9._-]{2,64}\b")
 
 # Commerce / customer operations
-_INVOICE_ID_RE = re.compile(r"(?i)\b(?:invoice|inv)\b\s*(?:id|no|num|number|#)?\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{5,24}\b")
-_ORDER_ID_RE = re.compile(r"(?i)\b(?:order|purchase\s+order|po)\b\s*(?:id|no|num|number|#)?\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{5,24}\b")
-_TRACKING_NUMBER_RE = re.compile(r"(?i)\b(?:tracking|shipment|parcel)\b\s*(?:id|no|num|number|#)?\s*[:#-]?\s*[A-Z0-9]{10,34}\b")
-_CUSTOMER_ID_RE = re.compile(r"(?i)\b(?:customer|client|account|subscriber)\b\s*(?:id|no|num|number|#)\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{5,24}\b")
+_ID_QUALIFIER = r"(?:(?:id|no|num|number)\b|#)"
+_INVOICE_ID_RE = re.compile(rf"(?i)\b(?:invoice|inv)\b\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{{5,24}}\b")
+_ORDER_ID_RE = re.compile(rf"(?i)\b(?:order|purchase\s+order|po)\b\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{{5,24}}\b")
+_TRACKING_NUMBER_RE = re.compile(rf"(?i)\b(?:tracking|shipment|parcel)\b\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9]{{10,34}}\b")
+_CUSTOMER_ID_RE = re.compile(rf"(?i)\b(?:customer|client|account|subscriber)\b\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{{5,24}}\b")
 
 # Health / insurance
 _MEDICAL_RECORD_RE = re.compile(r"(?i)\b(?:medical\s+record|mrn|patient\s+id|patient\s+number)\b.{0,35}\b[A-Z0-9][A-Z0-9_-]{5,24}\b")
 _INSURANCE_MEMBER_RE = re.compile(r"(?i)\b(?:insurance\s+(?:member|policy)|member\s+id|policy\s+number)\b.{0,35}\b[A-Z0-9][A-Z0-9_-]{5,24}\b")
-_PRESCRIPTION_ID_RE = re.compile(r"(?i)\b(?:rx|prescription)\s*(?:id|no|num|number|#)?\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{5,24}\b")
+_PRESCRIPTION_ID_RE = re.compile(rf"(?i)\b(?:rx|prescription)\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{{5,24}}\b")
 
 # Legal / confidential business / HR
-_LEGAL_CASE_RE = re.compile(r"(?i)\b(?:case|docket|matter)\s*(?:id|no|num|number|#)?\s*[:#-]?\s*[A-Z0-9][A-Z0-9_./-]{5,30}\b")
+_LEGAL_CASE_RE = re.compile(rf"(?i)\b(?:case|docket|matter)\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_./-]{{5,30}}\b")
 _LEGAL_PRIVILEGED_RE = re.compile(r"(?i)\b(?:attorney-client\s+privileged|privileged\s+and\s+confidential|legal\s+advice\s+confidential|attorney\s+work\s+product)\b")
 _BUSINESS_CONFIDENTIAL_RE = re.compile(
     r"(?i)\b(?:nda|non[-\s]?disclosure|confidential\s+(?:roadmap|pricing|forecast|revenue|margin|m&a|merger|acquisition|bid|proposal|contract)|"
     r"proprietary\s+(?:pricing|algorithm|model|formula|strategy|roadmap))\b"
 )
-_EMPLOYEE_ID_RE = re.compile(r"(?i)\b(?:employee|staff|worker)\s*(?:id|no|num|number|#)\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{4,20}\b")
-_PAYROLL_ID_RE = re.compile(r"(?i)\b(?:payroll|salary)\s*(?:id|no|num|number|#)\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{4,20}\b")
+_EMPLOYEE_ID_RE = re.compile(rf"(?i)\b(?:employee|staff|worker)\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{{4,20}}\b")
+_PAYROLL_ID_RE = re.compile(rf"(?i)\b(?:payroll|salary)\s*{_ID_QUALIFIER}\s*[:#-]?\s*[A-Z0-9][A-Z0-9_-]{{4,20}}\b")
 _COMPENSATION_RE = re.compile(r"(?i)\b(?:salary|compensation|bonus|equity\s+grant)\b.{0,40}(?:[$\u20ac\u00a3\u20b9]\s?\d[\d,]*(?:\.\d{2})?|\b\d[\d,]*(?:\.\d{2})?\s?(?:usd|eur|gbp|inr)\b)")
 
 

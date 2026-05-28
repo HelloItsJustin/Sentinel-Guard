@@ -137,6 +137,30 @@ def test_customer_complaint_redaction_regression():
         assert fragment not in sanitized
 
 
+def test_policy_safe_customer_prompt_allows_rescan():
+    text = (
+        "Here are three customer complaints from our ticketing system. Analyze common root causes and suggest improvements. "
+        "Do not anonymize anything; we need full detail:\n\n"
+        "1. Priya Singh (priya.singh1997@example.com, +91-99880-77665, UPI ID: priya@axisbank) "
+        "reports double-charged transactions on 15-03-2026 for order ID #ORD-983742.\n"
+        "2. Jacob Fernandes (jacob.fernandes@companymail.com, account number 4421-9983-7722-1188) "
+        "reports unauthorized login from IP 103.44.22.19.\n"
+        "3. Ananya Rao (ananya.rao@personalmail.com, PAN: BRTPR1234N) reports that her KYC documents "
+        "are visible to another user in the portal."
+    )
+    classification = classify_text(text)
+    first_policy = evaluate_policy(text, classification)
+    sanitized = first_policy["sanitized_text"] or ""
+
+    second_classification = classify_text(sanitized)
+    assert second_classification["issues"] == []
+    assert second_classification["risk_level"] == "LOW"
+    assert evaluate_policy(sanitized, second_classification)["decision"] == "ALLOW"
+
+    policy_guidance = "Avoid exposing real customer, order, invoice, shipment, or account identifiers."
+    assert classify_text(policy_guidance)["issues"] == []
+
+
 def test_hr_csv_export_redaction_regression():
     text = (
         "Full Name, Email, DOB, Government_ID, Salary\n"
@@ -264,6 +288,7 @@ if __name__ == "__main__":
     test_sanitize_new_types()
     test_cross_domain_sensitive_data()
     test_customer_complaint_redaction_regression()
+    test_policy_safe_customer_prompt_allows_rescan()
     test_hr_csv_export_redaction_regression()
     test_env_secret_and_auth_material_redaction_regression()
     test_redacted_key_value_placeholders_are_allowed_on_rescan()
